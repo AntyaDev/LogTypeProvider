@@ -1,8 +1,9 @@
 ﻿namespace LogTypeProvider
 
-module internal TypeInference =
+module TypeInference =
 
  open System.Globalization
+ open Microsoft.FSharp.Quotations
 
  let cultureInfo = CultureInfo.InvariantCulture
  let dateTimeStyles = DateTimeStyles.AllowWhiteSpaces ||| DateTimeStyles.RoundtripKind
@@ -26,10 +27,10 @@ module internal TypeInference =
      | Double dec  -> typeof<double>
      | _           -> typeof<string>
 
- let getConversionQuotation (arg: string, ``type``) : Quotations.Expr list -> Quotations.Expr =
-   if ``type`` = typeof<string> then (fun _ -> <@@ arg @@>)
-   elif ``type`` = typeof<int> then (fun _ -> <@@ convertInteger(arg) @@>)
-   elif ``type`` = typeof<double> then (fun _ -> <@@ convertDouble(arg) @@>)
-   elif ``type`` = typeof<System.DateTime> then (fun _ -> <@@ convertDateTime(arg) @@>)
+ let getConversion ``type`` : Expr -> Expr =
+   if ``type`` = typeof<string> then (fun arg -> <@@ %%arg @@>)
+   elif ``type`` = typeof<int> then (fun arg -> <@@ convertInteger(%%arg) @@>)
+   elif ``type`` = typeof<double> then (fun arg -> <@@ convertDouble(%%arg) @@>)
+   elif ``type`` = typeof<System.DateTime> then (fun arg -> <@@ convertDateTime(%%arg) @@>)
    else failwith "getConversionQuotation: Unsupported primitive type"
 

@@ -52,8 +52,9 @@
     <Compile Include="ProvidedTypes.fsi" />
     <Compile Include="ProvidedTypes.fs" />
     <Compile Include="DebugProvidedTypes.fs" />
+    <Compile Include="DomainTypes.fs" />
     <Compile Include="TypeInference.fs" />
-    <Compile Include="IISLogReader.fs" />
+    <Compile Include="IISLogParser.fs" />
     <Compile Include="IISLogProvider.fs" />
     <None Include="packages.config" />
   </ItemGroup>
